@@ -1,7 +1,6 @@
 package kinesis_iterator
 
 import (
-	"context"
 	"fmt"
 	"github.com/aws/aws-sdk-go-v2/service/kinesis/types"
 	"testing"
@@ -14,9 +13,7 @@ func TestNewIteratorWithClient(t *testing.T) {
 
 	opt := NewOption().WithRegion("us-west-2").WithSts(true).WithStreamName(streamName)
 
-	ctx, _ := context.WithCancel(context.TODO())
-
-	iter, err := NewIterator(ctx, opt)
+	iter, err := NewIterator(opt)
 	iter.SetSleepLimit(time.Second)
 	if err != nil {
 		panic(err)

@@ -9,12 +9,12 @@ import (
 )
 
 type Sequence struct {
-	sequence   *string
-	StreamName string
-	ShardId    string
-	saver      SequenceSaver
-	reTry      int
-	logger     Logger
+	sequence   *string       //sequencenumber ，aws的position
+	StreamName string        //streamName
+	ShardId    string        //当前Shard的id
+	saver      SequenceSaver //saver
+	reTry      int           //重试次数
+	logger     Logger        //logger
 }
 
 type SequenceSaver interface {

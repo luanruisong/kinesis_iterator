@@ -19,20 +19,19 @@ type (
 	}
 
 	Iterator struct {
-		opt            *Option
-		done           sync.WaitGroup
-		sleepLimit     time.Duration
-		logger         Logger
-		saver          SequenceSaver
-		shardInfo      sync.Map
-		ctx            context.Context
-		ctxCancel      context.CancelFunc
-		shardCtxCancel context.CancelFunc
-		handler        Handler
+		opt            *Option            //保存原始设置，用来创建client
+		done           sync.WaitGroup     //监控当前所有shard的执行状态
+		sleepLimit     time.Duration      //getRecord执行间隔
+		logger         Logger             // logger
+		saver          SequenceSaver      // Sequence执行前后需要对sequenceNumber的操作
+		shardInfo      sync.Map           //监控当前执行中shard，以及执行时间
+		ctx            context.Context    //总开关ctx
+		ctxCancel      context.CancelFunc //总开关ctx cancel
+		shardCtxCancel context.CancelFunc //shard 中会监控总开关，以及可以单独关闭shard的ctx
+		handler        Handler            //处理函数
 	}
 	logger  struct{}
 	Handler func(data types.Record) error
-	Opt     func(output *kinesis.GetRecordsOutput) error
 )
 
 func (l *logger) Info(s string, i ...interface{}) {
